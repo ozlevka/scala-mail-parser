@@ -4,6 +4,7 @@
 
 .idea/
 *.iml
+out/
 
 ### Scala template
 *.class
