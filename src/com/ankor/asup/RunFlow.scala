@@ -20,7 +20,7 @@ class RunFlow {
 
 
 object RunFlow extends RunFlow {
-   def main(args: Array[String]) = {
+   def notmain(args: Array[String]) = {
      val path = "/home/ozlevka/data"
      val file = new File(path)
      val filter  = new WildcardFileFilter("*.msg")
