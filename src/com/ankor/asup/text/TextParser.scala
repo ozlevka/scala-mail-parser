@@ -4,9 +4,8 @@ package com.ankor.asup.text
  * Created by ozlevka on 10/31/15.
  */
 
-import io.Source
+import scala.io.Source
 import java.io.File
-
 import scala.reflect.macros.Parsers
 import scala.util.parsing.combinator.RegexParsers
 
@@ -30,7 +29,40 @@ class AsupGrammar extends RegexParsers {
 }
 
 
-class AsupData(_name: String, _total: Long, _used: Long, _avaliable: Long, _capacity: Long) {
+class AsupMailData {
+   private[this] var _from:String = ""
+   private[this] var _subject: String = ""
+   private[this] var _serialNumber: String = ""
+   private[this] var _systemId: String = ""
+   private[this] var _snmpLocation: String = ""
+
+  def from = _from
+  def from_= (f: String): Unit = {
+       _from = f
+   }
+
+  def subject = _subject
+   def subject_= (v: String): Unit =  {
+      _subject = v
+   }
+
+  def serialNumber = _serialNumber
+   def serialNumber_= (v: String): Unit = {
+      _serialNumber = v
+   }
+  def systemId = _systemId
+   def systemId_= (v: String): Unit = {
+     _systemId = v
+   }
+
+  def snmpLocation = _snmpLocation
+   def snmpLocation_= (v: String): Unit = {
+     _snmpLocation = v
+   }
+}
+
+
+class AsupData(_name: String, _total: Long, _used: Long, _avaliable: Long, _capacity: Long) extends AsupMailData {
    val name = _name
    val total = _total
    val used = _used
@@ -52,7 +84,12 @@ trait SimpleParser extends RegexParsers {
       else {
          None
       }
-   }
+  }
+
+  def linesIterate(lines: List[String]) = {
+    val r = for(line <- lines) yield parse(line)
+    r filter(x => { x != None})
+  }
 }
 
 
@@ -60,12 +97,8 @@ trait SimpleParser extends RegexParsers {
 class TextParser(text: String) extends SimpleParser {
   val newline = "\\r?\\n"
 
-  def process() = {
-    val r = text.split(newline) map (line => {
-       parse(line)
-    })
-
-    r filter(x => { x != None})
+  def process = {
+      linesIterate(text.split(newline).toList)
   }
 }
 
@@ -77,11 +110,10 @@ class FileParser(f: File) extends SimpleParser {
         this(new File(path))
     }
 
-    def process() = {
+    def process = {
         val src = Source.fromFile(file)
         val lines = src.getLines.toList
-        val r = for(line <- lines) yield parse(line)
-        r filter(x => { x != None})
+        linesIterate(lines)
     }
 }
 
