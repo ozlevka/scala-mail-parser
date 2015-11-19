@@ -39,7 +39,7 @@ trait RunFlowFuncs {
         val stream = new FileOutputStream(file_name)
         stream.write(attachments(0).asInstanceOf[FileAttachment].getData)
         stream.close()
-        ("7z e " + srcDir + "/body.7z -oc:" + tmpDir) !
+        ("7z e " + tmpDir + "/body.7z -oc:" + tmpDir) !
         val parser = FileParser(tmpDir + "/DF-A.txt")
 
         res = parser.process
@@ -62,14 +62,19 @@ trait RunFlowFuncs {
         val enrishment: Map[String,Any] = BodyParser(message.getBodyText).parse
 
         objects foreach(x => {
-             x match {
-               case t:AsupData => {
-                   if (enrishment contains("serial_number")) t.serialNumber = enrishment("serial_number").toString
-                   if(enrishment contains("snmp_location")) t.snmpLocation = enrishment("snmp_location").toString
-                   if(enrishment contains("system_id")) t.systemId = enrishment("system_id").toString
+             try {
+               x match {
+                 case t: AsupData => {
+                   if (enrishment contains ("serial_number")) t.serialNumber = enrishment("serial_number").toString
+                   if (enrishment contains ("snmp_location")) t.snmpLocation = enrishment("snmp_location").toString
+                   if (enrishment contains ("system_id")) t.systemId = enrishment("system_id").toString
                    t.from = message.getFromEmail.split("@")(1)
                    t.subject = message.getSubject
+                 }
                }
+             }
+             catch {
+               case e:Exception => e.printStackTrace(); println(enrishment); println(message.getSubject)
              }
         })
     }

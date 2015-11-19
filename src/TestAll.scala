@@ -3,6 +3,7 @@
  */
 
 import com.ankor.asup.RunFlow
+import com.ankor.asup.elastic.JestWrapper
 import com.ankor.asup.text.{AsupMailData, TextParser, FileParser}
 import com.auxilii.msgparser.MsgParser
 import com.auxilii.msgparser.attachment.FileAttachment
@@ -16,8 +17,8 @@ import java.io.{FileOutputStream, ByteArrayInputStream,  File}
 
 object TestAll {
     def main(args: Array[String]) = {
-        val buffer = RunFlow("/home/ozlevka/data", "/home/ozlevka/data/tmp").openMessages
+        val buffer = RunFlow("/home/ozlevka/newdisk/data/asup", "/home/ozlevka/newdisk/data/asup/tmp").openMessages
 
-        println(buffer.size)
+        println (JestWrapper("http://localhost:9200").save(buffer.toList, "asup"))
     }
 }

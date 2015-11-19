@@ -30,39 +30,41 @@ class AsupGrammar extends RegexParsers {
 
 
 class AsupMailData {
-   private[this] var _from:String = ""
-   private[this] var _subject: String = ""
-   private[this] var _serialNumber: String = ""
-   private[this] var _systemId: String = ""
-   private[this] var _snmpLocation: String = ""
+   private[this] var From:String = ""
+   private[this] var Subject: String = ""
+   private[this] var SerialNumber: String = ""
+   private[this] var SystemId: String = ""
+   private[this] var SnmpLocation: String = ""
 
-  def from = _from
+  def from = From
   def from_= (f: String): Unit = {
-       _from = f
+       From = f
    }
 
-  def subject = _subject
-   def subject_= (v: String): Unit =  {
-      _subject = v
+  def subject = Subject
+  def subject_= (v: String): Unit =  {
+      Subject = v
    }
 
-  def serialNumber = _serialNumber
-   def serialNumber_= (v: String): Unit = {
-      _serialNumber = v
-   }
-  def systemId = _systemId
-   def systemId_= (v: String): Unit = {
-     _systemId = v
+  def serialNumber = SerialNumber
+  def serialNumber_= (v: String): Unit = {
+      SerialNumber = v
    }
 
-  def snmpLocation = _snmpLocation
-   def snmpLocation_= (v: String): Unit = {
-     _snmpLocation = v
+  def systemId = SystemId
+  def systemId_= (v: String): Unit = {
+     SystemId = v
+   }
+
+  def snmpLocation = SnmpLocation
+  def snmpLocation_= (v: String): Unit = {
+     SnmpLocation = v
    }
 }
 
 
 class AsupData(_name: String, _total: Long, _used: Long, _avaliable: Long, _capacity: Long) extends AsupMailData {
+
    val name = _name
    val total = _total
    val used = _used
