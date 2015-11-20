@@ -70,6 +70,7 @@ trait RunFlowFuncs {
                    if (enrishment contains ("system_id")) t.systemId = enrishment("system_id").toString
                    t.from = message.getFromEmail.split("@")(1)
                    t.subject = message.getSubject
+                   t.sysDate = message.getDate.getTime
                  }
                }
              }

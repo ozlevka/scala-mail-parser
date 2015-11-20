@@ -4,6 +4,8 @@ package com.ankor.asup.text
  * Created by ozlevka on 10/31/15.
  */
 
+import java.util.Date
+
 import scala.io.Source
 import java.io.File
 import scala.reflect.macros.Parsers
@@ -16,7 +18,7 @@ import scala.util.parsing.combinator.RegexParsers
 class AsupGrammar extends RegexParsers {
   val number = "[0-9]+".r
   val space = "[\\s]?".r
-  val aggregation = "aggr[0-9]?".r
+  val aggregation = "aggr[0-9|_|a-z|A-Z]+".r
   def space_number: Parser[Long] = opt(space) ~> number ^^ {
     _.toLong
   }
@@ -35,6 +37,7 @@ class AsupMailData {
    private[this] var SerialNumber: String = ""
    private[this] var SystemId: String = ""
    private[this] var SnmpLocation: String = ""
+   private[this] var systemDate: Long = 0
 
   def from = From
   def from_= (f: String): Unit = {
@@ -60,6 +63,11 @@ class AsupMailData {
   def snmpLocation_= (v: String): Unit = {
      SnmpLocation = v
    }
+
+  def sysDate = systemDate
+  def sysDate_= (v: Long): Unit = {
+    systemDate = v
+  }
 }
 
 

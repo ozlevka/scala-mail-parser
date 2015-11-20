@@ -20,5 +20,15 @@ object TestAll {
         val buffer = RunFlow("/home/ozlevka/newdisk/data/asup", "/home/ozlevka/newdisk/data/asup/tmp").openMessages
 
         println (JestWrapper("http://localhost:9200").save(buffer.toList, "asup"))
+
+
+        //FileParser("/home/ozlevka/newdisk/data/tmp/DF-A.txt") process
+
+        //func
+    }
+
+
+    def func = {
+
     }
 }
