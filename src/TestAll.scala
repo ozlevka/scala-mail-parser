@@ -17,9 +17,10 @@ import java.io.{FileOutputStream, ByteArrayInputStream,  File}
 
 object TestAll {
     def main(args: Array[String]) = {
-        val buffer = RunFlow("/home/ozlevka/newdisk/data/asup", "/home/ozlevka/newdisk/data/asup/tmp").openMessages
 
-        println (JestWrapper("http://localhost:9200").save(buffer.toList, "asup"))
+        val buffer = RunFlow(args(0), args(1)).openMessages
+
+        println (JestWrapper(args(2)).save(buffer.toList, "asup"))
 
 
         //FileParser("/home/ozlevka/newdisk/data/tmp/DF-A.txt") process
