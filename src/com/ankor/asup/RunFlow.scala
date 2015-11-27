@@ -17,6 +17,7 @@ import scala.sys.process._
 trait RunFlowFuncs {
     val srcDir: String
     val tmpDir: String
+    val commandTemplate: String
     val fileExt = "*.msg"
 
 
@@ -39,7 +40,8 @@ trait RunFlowFuncs {
         val stream = new FileOutputStream(file_name)
         stream.write(attachments(0).asInstanceOf[FileAttachment].getData)
         stream.close()
-        ("7z e " + tmpDir + "/body.7z -oc:" + tmpDir) !
+        val command = commandTemplate.format(tmpDir, tmpDir)
+        (command) !
         val parser = FileParser(tmpDir + "/DF-A.txt")
 
         res = parser.process
@@ -84,15 +86,16 @@ trait RunFlowFuncs {
 
 
 
-class RunFlow(_srcDir: String, _tmpDir: String) extends RunFlowFuncs  {
+class RunFlow(_srcDir: String, _tmpDir: String, _command: String) extends RunFlowFuncs  {
     val srcDir = _srcDir
     val tmpDir = _tmpDir
+    val commandTemplate = _command
 }
 
 
 
 object RunFlow {
-    def apply(srcDir: String, tmpDir: String) = {
-      new RunFlow(srcDir, tmpDir) with RunFlowFuncs
+    def apply(srcDir: String, tmpDir: String, command:String) = {
+      new RunFlow(srcDir, tmpDir, command) with RunFlowFuncs
    }
 }
